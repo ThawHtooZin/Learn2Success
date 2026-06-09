@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" fill="none">
+  <rect width="800" height="600" fill="#059669"/>
+  <polygon points="400,140 480,320 320,320" fill="#fbbf24"/>
+  <circle cx="400" cy="380" r="90" fill="#fff" opacity="0.95"/>
+  <text x="400" y="400" text-anchor="middle" fill="#059669" font-size="56" font-family="system-ui,sans-serif" font-weight="800">A+</text>
+  <text x="400" y="500" text-anchor="middle" fill="#d1fae5" font-size="36" font-family="system-ui,sans-serif" font-weight="700">You did great!</text>
+</svg>

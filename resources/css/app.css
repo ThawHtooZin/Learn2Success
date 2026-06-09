@@ -1,0 +1,418 @@
+@import 'tailwindcss';
+
+[x-cloak] {
+    display: none !important;
+}
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+
+@theme {
+    --font-sans: 'Quicksand', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+        'Segoe UI Symbol', 'Noto Color Emoji';
+
+    --color-brand-gold: #785900;
+    --color-brand-gold-light: #ffc107;
+    --color-brand-gold-dark: #6d5100;
+    --color-brand-sky: #006399;
+    --color-brand-sky-light: #04a8ff;
+    --color-brand-green: #006e1c;
+    --color-brand-surface: #f6fafe;
+    --color-brand-sky-bg: #e3f2fd;
+}
+
+/* Student mobile app shell — full width on mobile (DESIGN.md) */
+.student-app {
+    width: 100%;
+    min-height: 100dvh;
+    background: linear-gradient(180deg, #e3f2fd 0%, #f6fafe 28%, #ffffff 100%);
+}
+
+.student-btn-primary {
+    display: flex;
+    min-height: 3.5rem;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    border-radius: 1rem;
+    border-bottom: 4px solid var(--color-brand-gold-dark);
+    background-color: var(--color-brand-gold-light);
+    padding: 0.875rem 1.25rem;
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--color-brand-gold-dark);
+    box-shadow: 0 8px 20px rgb(120 89 0 / 0.2);
+    transition: transform 0.1s ease;
+}
+
+.student-btn-primary:active {
+    transform: translateY(4px);
+    border-bottom-width: 0;
+}
+
+.student-btn-secondary {
+    display: flex;
+    min-height: 3.5rem;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    border-radius: 1rem;
+    border: 2px solid #cde5ff;
+    border-bottom: 4px solid var(--color-brand-sky);
+    background-color: #fff;
+    padding: 0.875rem 1.25rem;
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--color-brand-sky);
+}
+
+.student-btn-secondary:active {
+    transform: translateY(2px);
+}
+
+.student-card {
+    border-radius: 1.25rem;
+    border: 2px solid #e3f2fd;
+    background-color: #fff;
+    padding: 1.25rem;
+    box-shadow: 0 8px 24px rgb(0 168 255 / 0.1);
+}
+
+.guest-btn-primary {
+    display: flex;
+    min-height: 3.75rem;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    border-radius: 1rem;
+    border-bottom: 4px solid var(--color-brand-gold-dark);
+    background-color: var(--color-brand-gold-light);
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-brand-gold-dark);
+    box-shadow: 0 8px 24px rgb(120 89 0 / 0.25);
+}
+
+.guest-btn-primary:active {
+    transform: translateY(4px);
+    border-bottom-width: 0;
+}
+
+/* Page transitions */
+@view-transition {
+    navigation: auto;
+}
+
+.page-enter {
+    animation: pageSlideIn 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes pageSlideIn {
+    from {
+        opacity: 0;
+        transform: translateX(24px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Coddy-style journey path */
+.journey-path {
+    min-height: 12rem;
+}
+
+.journey-node-wrap {
+    display: flex;
+    width: 100%;
+}
+
+.journey-node-wrap--left {
+    justify-content: flex-start;
+}
+
+.journey-node-wrap--right {
+    justify-content: flex-end;
+}
+
+.journey-connector {
+    width: 4px;
+    height: 3rem;
+    margin: 0.25rem auto;
+    border-radius: 999px;
+    background: linear-gradient(180deg, #ffc107 0%, #006399 100%);
+    opacity: 0.35;
+}
+
+.journey-connector--active {
+    opacity: 1;
+    animation: connectorPulse 2s ease-in-out infinite;
+}
+
+.journey-connector--locked {
+    background: #dfe3e7;
+    opacity: 1;
+}
+
+@keyframes connectorPulse {
+    0%,
+    100% {
+        transform: scaleY(1);
+    }
+    50% {
+        transform: scaleY(1.08);
+    }
+}
+
+.journey-week-node {
+    display: flex;
+    width: min(100%, 17rem);
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+    border-radius: 1.5rem;
+    padding: 1.25rem 1rem;
+    text-align: center;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.journey-week-node--unlocked {
+    border: 3px solid #ffc107;
+    background: linear-gradient(180deg, #fff9e6 0%, #ffffff 100%);
+    box-shadow: 0 12px 32px rgb(120 89 0 / 0.18);
+    animation: nodePop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+.journey-week-node--unlocked:active {
+    transform: scale(0.96);
+}
+
+.journey-week-node--completed {
+    border-color: #006e1c;
+    background: linear-gradient(180deg, #e8f5e9 0%, #ffffff 100%);
+}
+
+.journey-week-node--locked {
+    border: 3px dashed #dfe3e7;
+    background: #f0f4f8;
+    color: #827660;
+    opacity: 0.85;
+}
+
+.journey-week-node__badge {
+    display: flex;
+    height: 2rem;
+    min-width: 2rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    background: #785900;
+    padding: 0 0.65rem;
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: #fff;
+}
+
+.journey-week-node--locked .journey-week-node__badge {
+    background: #dfe3e7;
+    color: #827660;
+}
+
+.journey-week-node__icon {
+    font-size: 2rem;
+    line-height: 1;
+}
+
+.journey-week-node__title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: #785900;
+}
+
+.journey-week-node--locked .journey-week-node__title {
+    color: #827660;
+}
+
+.journey-week-node__meta {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #006399;
+}
+
+.journey-week-node--locked .journey-week-node__meta {
+    color: #827660;
+}
+
+@keyframes nodePop {
+    from {
+        opacity: 0;
+        transform: scale(0.85) translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* Quiz steps inside a week — continuous timeline rail */
+.journey-steps {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.journey-steps__track {
+    position: absolute;
+    top: 1.625rem;
+    bottom: 1.625rem;
+    left: calc(3.25rem / 2 - 2px);
+    width: 4px;
+    border-radius: 999px;
+    background: linear-gradient(180deg, #ffc107 0%, #04a8ff 100%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.journey-quiz-step {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    gap: 1rem;
+    animation: nodePop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+.journey-quiz-step--current .journey-quiz-step__number {
+    border-color: #ffc107;
+    background: #ffc107;
+    color: #6d5100;
+    box-shadow: 0 0 0 4px #fff;
+    animation: currentPulse 1.5s ease-in-out infinite;
+}
+
+.journey-quiz-step--done .journey-quiz-step__number {
+    border-color: #006e1c;
+    background: #006e1c;
+    color: #fff;
+    box-shadow: 0 0 0 4px #fff;
+}
+
+@keyframes currentPulse {
+    0%,
+    100% {
+        box-shadow: 0 0 0 0 rgb(255 193 7 / 0.5);
+    }
+    50% {
+        box-shadow: 0 0 0 10px rgb(255 193 7 / 0);
+    }
+}
+
+.journey-quiz-step__rail {
+    position: relative;
+    z-index: 1;
+    flex-shrink: 0;
+}
+
+.journey-quiz-step__number {
+    display: flex;
+    height: 3.25rem;
+    width: 3.25rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    border: 3px solid #cde5ff;
+    background: #fff;
+    box-shadow: 0 0 0 4px #fff;
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #006399;
+}
+
+.journey-quiz-step__body {
+    flex: 1;
+    padding-bottom: 0.5rem;
+}
+
+.journey-quiz-step__title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: #171c1f;
+}
+
+.journey-quiz-step__meta {
+    margin-top: 0.25rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #4f4632;
+}
+
+.journey-quiz-step__score {
+    margin-top: 0.5rem;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #006e1c;
+}
+
+.journey-quiz-step__actions {
+    margin-top: 0.75rem;
+}
+
+.quiz-timer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: 999px;
+    background: #ffdf9e;
+    padding: 0.5rem 1rem;
+    font-size: 1.125rem;
+    font-weight: 800;
+    color: #6d5100;
+}
+
+.quiz-timer--urgent {
+    background: #ffdad6;
+    color: #ba1a1a;
+    animation: timerShake 0.5s ease-in-out infinite;
+}
+
+.question-type-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    border-radius: 999px;
+    padding: 0.25rem 0.65rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.question-type-tag--speak {
+    background: #ffdf9e;
+    color: #6d5100;
+}
+
+.question-type-tag--choose {
+    background: #cde5ff;
+    color: #003a5d;
+}
+
+.question-type-tag--patterns {
+    background: #94f990;
+    color: #006419;
+}
+
+@keyframes timerShake {
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: translateX(-2px);
+    }
+    75% {
+        transform: translateX(2px);
+    }
+}
+

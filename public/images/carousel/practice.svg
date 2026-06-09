@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" fill="none">
+  <rect width="800" height="600" fill="#f59e0b"/>
+  <rect x="180" y="160" width="440" height="280" rx="32" fill="#fff" opacity="0.95"/>
+  <rect x="220" y="210" width="360" height="24" rx="12" fill="#fde68a"/>
+  <rect x="220" y="260" width="280" height="24" rx="12" fill="#fde68a"/>
+  <rect x="220" y="310" width="320" height="24" rx="12" fill="#fde68a"/>
+  <circle cx="560" cy="380" r="48" fill="#fbbf24"/>
+  <path d="M544 380l12 12 24-24" stroke="#fff" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="400" y="500" text-anchor="middle" fill="#fffbeb" font-size="36" font-family="system-ui,sans-serif" font-weight="700">Practice makes perfect!</text>
+</svg>

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" fill="none">
+  <rect width="800" height="600" fill="#7c3aed"/>
+  <circle cx="400" cy="260" r="120" fill="#a78bfa" opacity="0.5"/>
+  <circle cx="400" cy="260" r="80" fill="#c4b5fd"/>
+  <path d="M320 320c0-44 36-80 80-80s80 36 80 80" stroke="#fff" stroke-width="12" stroke-linecap="round"/>
+  <rect x="280" y="340" width="240" height="40" rx="20" fill="#fff" opacity="0.9"/>
+  <text x="400" y="368" text-anchor="middle" fill="#5b21b6" font-size="28" font-family="system-ui,sans-serif" font-weight="700">LISTEN</text>
+  <text x="400" y="480" text-anchor="middle" fill="#ede9fe" font-size="36" font-family="system-ui,sans-serif" font-weight="700">Use your ears!</text>
+</svg>
