@@ -98,6 +98,26 @@
     border-bottom-width: 0;
 }
 
+/* Welcome / marketing home */
+.welcome-carousel__slide {
+    min-height: 12rem;
+    max-height: min(70vh, 28rem);
+}
+
+@media (min-width: 640px) {
+    .welcome-carousel__slide {
+        min-height: 14rem;
+        max-height: min(65vh, 32rem);
+    }
+}
+
+@media (min-width: 1024px) {
+    .welcome-carousel__slide {
+        min-height: 16rem;
+        max-height: 24rem;
+    }
+}
+
 /* Page transitions */
 @view-transition {
     navigation: auto;

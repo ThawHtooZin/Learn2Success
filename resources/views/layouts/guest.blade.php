@@ -10,8 +10,8 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     @endif
 </head>
-<body class="min-h-screen bg-[#f6fafe] text-[#171c1f] antialiased">
-    <div class="px-4 pt-4">
+<body class="min-h-screen overflow-x-hidden bg-[#f6fafe] text-[#171c1f] antialiased">
+    <div class="mx-auto max-w-6xl px-4 pt-4 sm:px-6">
         <x-flash-messages />
     </div>
     @yield('content')
