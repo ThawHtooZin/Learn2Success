@@ -21,6 +21,7 @@
 |-----|---------|
 | [database-schema.md](database-schema.md) | Tables, columns, relationships |
 | [routes-reference.md](routes-reference.md) | All HTTP routes (all ✅) |
+| [client-demo-video-guide.md](client-demo-video-guide.md) | **Client screen recording plan** (10 videos by role) |
 | [epics/README.md](epics/README.md) | Per-epic implementation specs |
 | [../DESIGN.md](../DESIGN.md) | Colors, typography, components |
 

@@ -1,15 +1,19 @@
 @php
-    $initialQuestions = old('questions', isset($quiz) ? $quiz->questions->map(fn ($q) => [
-        'question_text' => $q->question_text,
-        'question_type' => $q->question_type->value,
-        'choices' => $q->choices(),
-        'correct_option_indexes' => $q->correctOptionIndexes(),
-    ])->values()->all() : [[
+    $defaultQuestion = [
         'question_text' => '',
         'question_type' => 'recording',
         'choices' => ['', ''],
         'correct_option_indexes' => [],
-    ]]);
+    ];
+
+    $initialQuestions = old('questions', isset($quiz) ? $quiz->questions->map(fn ($q) => [
+        'question_text' => $q->question_text,
+        'question_type' => $q->question_type->value,
+        'choices' => $q->choices() ?: ['', ''],
+        'correct_option_indexes' => $q->correctOptionIndexes(),
+    ])->values()->all() : [$defaultQuestion]);
+
+    $initialQuestions = collect($initialQuestions)->map(fn ($q) => array_merge($defaultQuestion, $q))->values()->all();
 @endphp
 
 <div x-data="quizForm({ questions: @js($initialQuestions) })">
@@ -58,7 +62,12 @@
                 <input type="hidden" :name="'questions['+qi+'][question_text]'" x-model="question.question_text">
                 <textarea x-model="question.question_text" rows="2" class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" placeholder="Question text" required></textarea>
 
-                <select :name="'questions['+qi+'][question_type]'" x-model="question.question_type" class="mt-2 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm">
+                <select
+                    :name="'questions['+qi+'][question_type]'"
+                    x-model="question.question_type"
+                    @change="onTypeChange(qi)"
+                    class="mt-2 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm"
+                >
                     <option value="recording">Recording (Speak)</option>
                     <option value="multiple_choice">Multiple choice (Choose)</option>
                 </select>
@@ -68,13 +77,13 @@
                         <div class="mt-2 flex items-center gap-2">
                             <input type="text" :name="'questions['+qi+'][choices]['+ci+']'" x-model="question.choices[ci]" class="flex-1 rounded-lg border border-slate-300 px-3 py-2 text-sm" placeholder="Choice">
                             <label class="flex items-center gap-1 text-xs whitespace-nowrap">
-                                <input type="checkbox" :checked="question.correct_option_indexes.includes(ci)" @change="toggleCorrect(qi, ci)">
+                                <input type="checkbox" :checked="isCorrect(qi, ci)" @change="toggleCorrect(qi, ci)">
                                 Correct
                             </label>
                         </div>
                     </template>
                     <button type="button" @click="addChoice(qi)" class="mt-2 text-xs font-medium hover:underline">+ Add choice</button>
-                    <template x-for="idx in question.correct_option_indexes" :key="'correct-'+idx">
+                    <template x-for="idx in (question.correct_option_indexes || [])" :key="'correct-'+idx">
                         <input type="hidden" :name="'questions['+qi+'][correct_option_indexes][]'" :value="idx">
                     </template>
                 </div>
