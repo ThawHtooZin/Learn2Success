@@ -10,7 +10,3 @@
         @include('admin.quizzes._form', ['quiz' => $quiz])
     </form>
 @endsection
-
-@push('scripts')
-    @vite(['resources/js/quiz-form.js'])
-@endpush

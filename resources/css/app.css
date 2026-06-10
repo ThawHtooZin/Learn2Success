@@ -118,11 +118,8 @@
     }
 }
 
-/* Page transitions */
-@view-transition {
-    navigation: auto;
-}
-
+/* Page enter animation (student layout). Avoid @view-transition navigation:auto —
+   it throws uncaught AbortError when transitions are skipped (forms, fast clicks). */
 .page-enter {
     animation: pageSlideIn 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
