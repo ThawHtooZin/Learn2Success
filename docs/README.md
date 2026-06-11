@@ -11,7 +11,7 @@
 | [learn2earn-prd.md](learn2earn-prd.md) | **Product source of truth** (PRD) |
 | [implementation-status.md](implementation-status.md) | What's done + how to run |
 | [phase-1-technical-design-and-tasks.md](phase-1-technical-design-and-tasks.md) | Phase 1 architecture (E1–E12 ✅) |
-| [phase-2-technical-design-and-tasks.md](phase-2-technical-design-and-tasks.md) | Phase 2 architecture (P2-E1 ✅) |
+| [phase-2-technical-design-and-tasks.md](phase-2-technical-design-and-tasks.md) | Phase 2 architecture (P2-E1–E3 ✅) |
 
 ---
 
@@ -34,6 +34,7 @@
 | [flows/phase-1-epic-1-authentication-sequence.md](flows/phase-1-epic-1-authentication-sequence.md) | E1 |
 | [flows/phase-1-epic-2-authorization-sequence.md](flows/phase-1-epic-2-authorization-sequence.md) | E2 |
 | [flows/phase-2-epic-1-week-gamification-sequence.md](flows/phase-2-epic-1-week-gamification-sequence.md) | P2-E1 |
+| [flows/phase-2-epic-3-staff-dashboards-sequence.md](flows/phase-2-epic-3-staff-dashboards-sequence.md) | P2-E3 |
 
 ---
 
@@ -45,7 +46,7 @@ cp .env.example .env && php artisan key:generate
 php artisan migrate:fresh --seed && php artisan storage:link
 npm run dev   # terminal 1
 php artisan serve   # terminal 2
-php artisan test   # 47 tests
+php artisan test   # 73 tests
 ```
 
 **Seed logins:** `student` / `student_allweeks` / `teacher` / `admin` — password: `password`

@@ -1,6 +1,6 @@
 # Implementation Status — Learn2Success
 
-**Last updated:** Phase 2, Epic 2 complete  
+**Last updated:** P2-E3 Staff Dashboards complete  
 **Docs index:** [docs/README.md](README.md)
 
 ## Epic summary
@@ -10,6 +10,7 @@
 | E1–E12 | Phase 1 modules | ✅ Done |
 | **P2-E1** | Week Management & Gamification Journey | ✅ Done |
 | **P2-E2** | Admin Week Management | ✅ Done |
+| **P2-E3** | Staff Dashboards (Admin + Teacher) | ✅ Done |
 
 Details: [phase-1-technical-design-and-tasks.md](phase-1-technical-design-and-tasks.md) · [phase-2-technical-design-and-tasks.md](phase-2-technical-design-and-tasks.md)
 
@@ -25,6 +26,17 @@ Details: [phase-1-technical-design-and-tasks.md](phase-1-technical-design-and-ta
 | 6–8 | Teacher grading | ✅ |
 | 9–14 | Admin users + quizzes | ✅ |
 | 15–17 | Admin weeks CRUD | ✅ |
+| 18 | Admin dashboard | ✅ |
+| 19 | Teacher dashboard | ✅ |
+
+## Recent UX
+
+| Area | Notes |
+|------|--------|
+| Welcome carousel | Left/right arrows, dot indicators, touch + mouse swipe |
+| Clickable UI | Global `cursor: pointer` on links, buttons, labels with radios/checkboxes |
+| Admin / teacher nav | `<x-staff-nav-trail>` breadcrumbs with ← back on parent steps |
+| Quiz create | Server-rendered questions; Speak quizzes no longer fail on hidden `choices` fields |
 
 ## Setup
 
@@ -58,7 +70,10 @@ php artisan test
 | Auth | `tests/Feature/Auth/LoginTest.php` |
 | Roles | `tests/Feature/Authorization/RoleAccessTest.php` |
 | Admin users | `tests/Feature/Admin/UserManagementTest.php` |
+| Admin quizzes | `tests/Feature/Admin/QuizManagementTest.php` |
+| Admin dashboard | `tests/Feature/Admin/DashboardTest.php` |
 | Admin weeks | `tests/Feature/Admin/WeekManagementTest.php` |
+| Teacher dashboard | `tests/Feature/Teacher/DashboardTest.php` |
 | Submissions | `tests/Feature/Submissions/SubmissionLifecycleTest.php` |
 | Auto-grade | `tests/Feature/Grading/AutoGradingTest.php` |
 | Teacher grading | `tests/Feature/Teacher/GradingTest.php` |
@@ -75,4 +90,5 @@ php artisan test
 - [phase-1-epic-2-authorization-sequence.md](flows/phase-1-epic-2-authorization-sequence.md)
 - [phase-2-epic-1-week-gamification-sequence.md](flows/phase-2-epic-1-week-gamification-sequence.md)
 - [phase-2-epic-2-admin-week-management-sequence.md](flows/phase-2-epic-2-admin-week-management-sequence.md)
+- [phase-2-epic-3-staff-dashboards-sequence.md](flows/phase-2-epic-3-staff-dashboards-sequence.md)
 - [phase-1-epic-10-teacher-grading-sequence.md](flows/phase-1-epic-10-teacher-grading-sequence.md)

@@ -16,6 +16,8 @@
 | ✅ | POST | `/student/submissions/{submission}/questions/{question}/audio` | `student.submissions.audio` | A, S |
 | ✅ | POST | `/student/submissions/{submission}/questions/{question}/selection` | `student.submissions.selection` | A, S |
 | ✅ | POST | `/student/submissions/{submission}/complete` | `student.submissions.complete` | A, S |
+| ✅ | GET | `/admin` | `admin.dashboard` | A, M |
+| ✅ | GET | `/teacher` | `teacher.dashboard` | A, T |
 | ✅ | GET | `/teacher/submissions` | `teacher.submissions.index` | A, T |
 | ✅ | GET | `/teacher/submissions/by-student` | `teacher.submissions.by-student` | A, T |
 | ✅ | GET | `/teacher/submissions/{submission}` | `teacher.submissions.show` | A, T |

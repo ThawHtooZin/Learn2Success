@@ -1,7 +1,7 @@
 # Epic Implementation Specs
 
 **Phase 1:** E1–E12 ✅ complete  
-**Phase 2:** P2-E1 ✅ · P2-E2 ✅ complete
+**Phase 2:** P2-E1 ✅ · P2-E2 ✅ · P2-E3 ✅ complete
 
 ## Phase 1 build order (done)
 
@@ -32,6 +32,7 @@ E1 → E2 → E11 → E12 → E5 → E3 → E4 → E8 → E6 → E7 → E9 → E
 |------|------|--------|
 | P2-E1 | [epic-13-week-gamification.md](epic-13-week-gamification.md) | ✅ Done |
 | P2-E2 | [epic-14-admin-week-management.md](epic-14-admin-week-management.md) | ✅ Done |
+| P2-E3 | [epic-15-staff-dashboards.md](epic-15-staff-dashboards.md) | ✅ Done |
 
 ## Related docs
 

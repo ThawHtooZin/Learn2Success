@@ -180,3 +180,10 @@ The shape language is dominated by **Soft Geometry**. There are no sharp corners
 
 ### Progress Bar
 - A thick, rounded track in light grey with a vibrant green "growing" fill that features a white "shine" highlight to look like a liquid tube.
+
+### Interaction
+- All clickable controls (links, buttons, checkbox/radio labels, selects) use `cursor: pointer`; disabled controls use `cursor: not-allowed`.
+- Welcome home carousel: circular prev/next arrows, dot indicators, touch swipe on mobile, drag swipe on desktop.
+
+### Staff navigation
+- Admin and teacher detail pages use `<x-staff-nav-trail>` — breadcrumb path with ← back on parent steps (e.g. `Quizzes / Create quiz`).

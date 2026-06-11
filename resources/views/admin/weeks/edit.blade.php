@@ -5,9 +5,14 @@
 @section('content')
     <div class="mb-6 flex flex-wrap items-center justify-between gap-3">
         <div>
-            <a href="{{ route('admin.weeks.index') }}" class="text-sm font-medium text-slate-600 hover:text-slate-900">← Weeks</a>
-            <h1 class="mt-1 text-xl font-semibold">Edit week</h1>
-            <p class="mt-1 text-sm text-slate-600">{{ $week->title }} · {{ $weekQuizzes->count() }} {{ str('quiz')->plural($weekQuizzes->count()) }}</p>
+            <x-staff-nav-trail
+                :items="[
+                    ['label' => 'Weeks', 'url' => route('admin.weeks.index')],
+                    ['label' => $week->title],
+                ]"
+                title="Edit week"
+            />
+            <p class="mt-1 text-sm text-slate-600">{{ $weekQuizzes->count() }} {{ str('quiz')->plural($weekQuizzes->count()) }} assigned</p>
         </div>
         <a href="{{ route('manage.quizzes.create') }}" class="min-h-11 rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-medium hover:bg-slate-50">
             + Create new quiz

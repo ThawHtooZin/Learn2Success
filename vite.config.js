@@ -11,6 +11,7 @@ export default defineConfig({
                 'resources/js/app.js',
                 'resources/js/quiz-form.js',
                 'resources/js/quiz-play.js',
+                'resources/js/staff-dashboard.js',
             ],
             refresh: true,
             fonts: [

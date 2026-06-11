@@ -35,7 +35,7 @@
 - Marketing home page with sign-in entry.
 - Username + password login with optional remember-me.
 - Session-based authentication; logout invalidates session.
-- Post-login redirect by role: student → dashboard, teacher → submissions, admin → quiz management.
+- Post-login redirect by role: student → week journey, teacher → **teacher dashboard**, admin → **admin dashboard** (Module 15).
 - Guest-only login routes; authenticated routes protected by `auth` middleware.
 
 ##### Module 2 — Authorization & Role Access
@@ -164,6 +164,30 @@
 - Fields: title, week number, unlock after days, description, active, sort order.
 - **Week ↔ quiz linking** lives here only (add, reorder, remove). Quiz edit keeps **time limit** only.
 
+##### Module 15 — Staff Dashboards (Phase 2) ✅
+
+**Single epic (P2-E3):** role-specific home dashboards for admin and teacher — overview first, lists second.
+
+**Admin dashboard** (`GET /admin`, `admin.dashboard`):
+
+- Landing page after admin login (replaces default to quiz list).
+- **KPI cards:** student count, teacher count, active quizzes, pending grades (completed submissions awaiting teacher).
+- **Charts:** submissions completed per day (14-day line/area); grading status split (pending / in progress / graded); attempts by week (bar).
+- **Quick actions:** create user, create quiz, create week, open grading queue.
+- **Recent activity:** latest submissions with student, quiz, status, link to grade.
+
+**Teacher dashboard** (`GET /teacher`, `teacher.dashboard`):
+
+- Landing page after teacher login (replaces default to submissions list).
+- **KPI cards:** ready to grade, graded in last 7 days, in progress, active students (30-day window).
+- **Charts:** pending grading workload trend (14 days); status donut.
+- **Priority queue:** oldest ready-to-grade submissions (top 5) with direct **Grade** CTA.
+- **Quick actions:** full queue, by-student view.
+
+**UX:** Mobile-responsive card grid; brand palette from `DESIGN.md`; Chart.js for graphs; empty states when no data.
+
+**Not in scope:** CSV export, custom date ranges, per-teacher queues, student dashboard.
+
 ---
 
 #### Screen Catalog (Implemented)
@@ -188,6 +212,8 @@
 | 15 | Admin weeks list | `admin.weeks.index` | `/admin/weeks` | Admin |
 | 16 | Admin create week | `admin.weeks.create` | `/admin/weeks/create` | Admin |
 | 17 | Admin edit week | `admin.weeks.edit` | `/admin/weeks/{week}/edit` | Admin |
+| 18 | Admin dashboard | `admin.dashboard` | `/admin` | Admin |
+| 19 | Teacher dashboard | `teacher.dashboard` | `/teacher` | Teacher |
 
 ---
 
@@ -215,7 +241,7 @@
 - Public API / third-party LMS integrations.
 - Multi-tenant / multi-school organization hierarchy.
 - Audit log UI (not implemented; may be added in rebuild).
-- Analytics dashboards, export reports, CSV downloads (not in current app).
+- CSV export / downloadable reports (dashboards in Module 15 — no export in P2-E3).
 - Internationalization beyond Laravel `__()` strings (English first).
 
 #### Project Constraints
@@ -250,7 +276,16 @@
 - FR-A2: The system shall authenticate users with username and password.
 - FR-A3: The system shall support optional “remember me” for persistent session.
 - FR-A4: The system shall regenerate session on successful login and invalidate on logout.
-- FR-A5: The system shall redirect authenticated users to their role-appropriate home route after login.
+- FR-A5: The system shall redirect authenticated users to their role-appropriate home route after login (student → journey; teacher → teacher dashboard; admin → admin dashboard).
+
+##### Staff Dashboards (Phase 2 — Module 15)
+
+- FR-D1: The system shall provide an admin dashboard at `/admin` showing program KPIs derived from users, quizzes, weeks, and submissions.
+- FR-D2: The system shall provide a teacher dashboard at `/teacher` emphasizing ready-to-grade workload and priority submissions.
+- FR-D3: Dashboards shall include at least two chart visualizations per role using server-computed datasets.
+- FR-D4: Dashboards shall expose quick-action links to existing CRUD and grading routes without duplicating business logic.
+- FR-D5: Dashboards shall be responsive and usable on mobile staff browsers.
+- FR-D6: Staff sidebar shall list **Dashboard** as the first navigation item for admin and teacher layouts.
 
 ##### Authorization
 
@@ -410,6 +445,8 @@
 | POST | `/student/submissions/{submission}/questions/{question}/audio` | `student.submissions.audio` | Upload recording |
 | POST | `/student/submissions/{submission}/questions/{question}/selection` | `student.submissions.selection` | Save selected options |
 | POST | `/student/submissions/{submission}/complete` | `student.submissions.complete` | Finish try |
+| GET | `/admin` | `admin.dashboard` | Admin overview (P2-E3) |
+| GET | `/teacher` | `teacher.dashboard` | Teacher overview (P2-E3) |
 | GET | `/teacher/submissions` | `teacher.submissions.index` | Grading queue |
 | GET | `/teacher/submissions/by-student` | `teacher.submissions.by-student` | Grouped by student |
 | GET | `/teacher/submissions/{submission}` | `teacher.submissions.show` | Grade form |
@@ -441,9 +478,10 @@
 | Auto-grade all-MC quiz | ✅ Done | |
 | Teacher grading queue & filters | ✅ Done | |
 | Admin user + quiz CRUD | ✅ Done | |
-| Pest automated tests | ✅ Done | 47 tests (`php artisan test`) |
+| Pest automated tests | ✅ Done | 73 tests (`php artisan test`) |
+| Admin + teacher dashboards | ✅ Done | Phase 2 P2-E3 (Module 15) |
 | Energy / lives gamification | ⬜ Not built | Out of scope P2-E1 |
-| Admin week CRUD UI | ⬜ Not built | Seeders only |
+| Admin week CRUD UI | ✅ Done | Phase 2 P2-E2 |
 | Password reset / self-register | ⬜ Not built | Excluded MVP |
 | Browser E2E tests | ⬜ Not built | |
 | Native mobile app | ⬜ Not built | Excluded |
@@ -456,14 +494,15 @@
 
 Auth, roles, admin CRUD, quiz engine, student play, submissions, auto-grade, teacher grade, UI shell, branding. See `docs/phase-1-technical-design-and-tasks.md`.
 
-#### Phase 2 — In progress
+#### Phase 2
 
 | Epic | Name | Status |
 |------|------|--------|
 | P2-E1 | Week Management & Gamification Journey | ✅ Done |
 | P2-E2 | Admin Week Management | ✅ Done |
+| P2-E3 | Staff Dashboards (Admin + Teacher) | ✅ Done |
 
-See `docs/phase-2-technical-design-and-tasks.md` and `docs/flows/phase-2-epic-1-week-gamification-sequence.md`.
+See `docs/phase-2-technical-design-and-tasks.md` · `docs/epics/epic-15-staff-dashboards.md`.
 
 ---
 
@@ -500,4 +539,4 @@ See `docs/phase-2-technical-design-and-tasks.md` and `docs/flows/phase-2-epic-1-
 |----------|--------|
 | **Why is this being built?** | To run structured English speaking assessments: students practice and submit spoken (and selected) answers; teachers grade consistently; admins manage users and quizzes — replacing ad-hoc tools and an unmaintainable vibe-coded codebase. |
 | **What is the development goal?** | Maintainable **Learn2Success** app with clear modules, enforced domain rules, services, tests, and PRD guardrails. |
-| **What is the expected result?** | Phase 1 + Phase 2 (week gamification) shipped; documented flows; 47+ automated tests on critical paths. |
+| **What is the expected result?** | Phase 1 + Phase 2 (weeks + staff dashboards) shipped; documented flows; 65+ automated tests on critical paths. |

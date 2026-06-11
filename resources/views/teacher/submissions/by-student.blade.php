@@ -3,7 +3,13 @@
 @section('title', 'By student')
 
 @section('content')
-    <h1 class="mb-4 text-xl font-semibold">Submissions by student</h1>
+    <x-staff-nav-trail
+        class="mb-4"
+        :items="[
+            ['label' => 'Students'],
+        ]"
+        title="Submissions by student"
+    />
 
     <div class="space-y-6">
         @forelse ($students as $student)

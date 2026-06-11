@@ -3,7 +3,14 @@
 @section('title', 'Create week — '.config('app.name'))
 
 @section('content')
-    <h1 class="mb-4 text-xl font-semibold">Create week</h1>
+    <x-staff-nav-trail
+        class="mb-4"
+        :items="[
+            ['label' => 'Weeks', 'url' => route('admin.weeks.index')],
+            ['label' => 'Create week'],
+        ]"
+        title="Create week"
+    />
     <form method="POST" action="{{ route('admin.weeks.store') }}" class="max-w-2xl rounded-xl border border-slate-200 bg-white p-6">
         @csrf
         @include('admin.weeks._form')

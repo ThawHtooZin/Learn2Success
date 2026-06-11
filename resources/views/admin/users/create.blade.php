@@ -3,7 +3,14 @@
 @section('title', 'Create user')
 
 @section('content')
-    <h1 class="mb-4 text-xl font-semibold">Create user</h1>
+    <x-staff-nav-trail
+        class="mb-4"
+        :items="[
+            ['label' => 'Users', 'url' => route('admin.users.index')],
+            ['label' => 'Create user'],
+        ]"
+        title="Create user"
+    />
     <form method="POST" action="{{ route('admin.users.store') }}" class="max-w-lg rounded-xl border border-slate-200 bg-white p-6">
         @csrf
         @include('admin.users._form')

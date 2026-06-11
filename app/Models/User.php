@@ -35,8 +35,8 @@ class User extends Authenticatable
     {
         return match ($this->role) {
             UserRole::Student => route('student.dashboard'),
-            UserRole::Teacher => route('teacher.submissions.index'),
-            UserRole::Admin => route('manage.quizzes.index'),
+            UserRole::Teacher => route('teacher.dashboard'),
+            UserRole::Admin => route('admin.dashboard'),
         };
     }
 }

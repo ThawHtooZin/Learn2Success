@@ -1,7 +1,7 @@
 # Phase 2 — Technical Design & Epics
 
 **Product source of truth:** `docs/learn2earn-prd.md` (Phase 2 extensions below)  
-**Status:** Phase 2, Epic 2 complete ✅  
+**Status:** Phase 2 complete ✅ (P2-E1–E3)  
 **Rule:** One Epic at a time; wait for approval before the next Phase 2 epic.
 
 **Depends on:** Phase 1 complete (E1–E12 ✅)
@@ -40,6 +40,62 @@
 
 - Energy / lives / hearts
 - Streaks, badges, leaderboards
+- Dashboard CSV export (P2-E3)
+
+---
+
+## P2-E3 — Staff Dashboards ✅
+
+| | |
+|---|---|
+| **Why** | Admin and teacher land on raw tables with no program overview or grading priorities. |
+| **What** | `/admin` and `/teacher` dashboards: KPI cards, Chart.js graphs, quick actions, recent/priority lists. |
+| **Result** | Login → dashboard; sidebar **Dashboard** first; existing CRUD/grading routes unchanged. |
+
+**Spec:** [epics/epic-15-staff-dashboards.md](epics/epic-15-staff-dashboards.md)
+
+### Architecture (P2-E3)
+
+```
+GET /admin   → Admin\DashboardController
+GET /teacher → Teacher\DashboardController
+  → StaffDashboardService::adminOverview() | teacherOverview()
+  → Blade + chart datasets (@js) + staff-dashboard.js (Chart.js)
+```
+
+**New service:** `App\Services\Dashboard\StaffDashboardService`
+
+| Method | Returns |
+|--------|---------|
+| `adminOverview()` | KPIs, 3 chart datasets, recent submissions |
+| `teacherOverview()` | KPIs, 2 chart datasets, priority grade queue |
+
+**No new database tables** — aggregates from `users`, `quizzes`, `weeks`, `submissions`.
+
+### Routes (P2-E3)
+
+| Method | Path | Name |
+|--------|------|------|
+| GET | `/admin` | `admin.dashboard` |
+| GET | `/teacher` | `teacher.dashboard` |
+
+**Login redirect:** `User::homeRoute()` → dashboard routes (student unchanged).
+
+### UI (P2-E3)
+
+| Screen | Key sections |
+|--------|----------------|
+| **Admin** | 4 KPI cards · submissions line chart · status donut · attempts-by-week bar · quick actions · recent activity |
+| **Teacher** | 4 KPI cards · workload trend · status donut · top-5 grade queue · quick actions |
+
+Components: `<x-dashboard.stat-card>`, `<x-dashboard.chart-panel>`. Brand tokens from `DESIGN.md`.
+
+### Tests (P2-E3)
+
+| File | Covers |
+|------|--------|
+| `tests/Feature/Admin/DashboardTest.php` | Auth, KPIs, 200 response |
+| `tests/Feature/Teacher/DashboardTest.php` | Auth, priority queue, 403 cross-role |
 
 ---
 
@@ -132,8 +188,9 @@ Palette: `DESIGN.md` gold / sky / green. Full-width mobile shell.
 |------|------|--------|
 | **P2-E1** | Week Management & Gamification Journey | ✅ Done |
 | **P2-E2** | Admin Week Management | ✅ Done |
+| **P2-E3** | Staff Dashboards (Admin + Teacher) | ✅ Done |
 
-Specs: **[epic-13-week-gamification.md](epics/epic-13-week-gamification.md)** · **[epic-14-admin-week-management.md](epics/epic-14-admin-week-management.md)**
+Specs: **[epic-13](epics/epic-13-week-gamification.md)** · **[epic-14](epics/epic-14-admin-week-management.md)** · **[epic-15](epics/epic-15-staff-dashboards.md)**
 
 ---
 
@@ -158,7 +215,7 @@ Specs: **[epic-13-week-gamification.md](epics/epic-13-week-gamification.md)** ·
 
 ```bash
 php artisan migrate:fresh --seed
-php artisan test   # 55 tests total
+php artisan test   # 73 tests total
 ```
 
 **Phase 2 automated tests**
@@ -170,6 +227,8 @@ php artisan test   # 55 tests total
 | `tests/Feature/Student/WeekProgramSeedTest.php` | Seeder slots, Choose/Speak, Record UI |
 | `tests/Feature/Student/QuizTimeLimitCompleteTest.php` | `time_expired` submit |
 | `tests/Feature/Admin/WeekManagementTest.php` | Admin week CRUD + auth |
+| `tests/Feature/Admin/DashboardTest.php` | Admin dashboard + login redirect |
+| `tests/Feature/Teacher/DashboardTest.php` | Teacher dashboard + priority queue |
 
 **Manual QA accounts**
 
@@ -185,3 +244,4 @@ php artisan test   # 55 tests total
 
 - [docs/flows/phase-2-epic-1-week-gamification-sequence.md](flows/phase-2-epic-1-week-gamification-sequence.md)
 - [docs/flows/phase-2-epic-2-admin-week-management-sequence.md](flows/phase-2-epic-2-admin-week-management-sequence.md)
+- [docs/flows/phase-2-epic-3-staff-dashboards-sequence.md](flows/phase-2-epic-3-staff-dashboards-sequence.md)

@@ -13,8 +13,15 @@
 
     <div class="mb-6 flex flex-wrap items-start justify-between gap-3">
         <div>
-            <h1 class="text-xl font-semibold">{{ $quiz->title }}</h1>
-            <p class="mt-1 text-sm text-slate-600">
+            <x-staff-nav-trail
+                :items="[
+                    ['label' => 'Grade', 'url' => route('teacher.submissions.index')],
+                    ['label' => $submission->user->username],
+                    ['label' => $quiz->title],
+                ]"
+                title="Grade submission"
+            />
+            <p class="mt-2 text-sm text-slate-600">
                 Student: {{ $submission->user->username }} ·
                 Started: {{ $submission->started_at?->format('M j, g:i A') }}
                 @if ($submission->completed_at)

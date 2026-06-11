@@ -35,10 +35,12 @@
                         : 'font-medium text-[#171c1f] hover:bg-[#e3f2fd] hover:text-[#006399]';
                 @endphp
                 @if (auth()->user()->role === \App\Enums\UserRole::Teacher)
-                    <a href="{{ route('teacher.submissions.index') }}" class="block rounded-lg px-3 py-2.5 {{ $navClass('teacher.submissions.index') }}">Grade</a>
+                    <a href="{{ route('teacher.dashboard') }}" class="block rounded-lg px-3 py-2.5 {{ $navClass('teacher.dashboard') }}">Dashboard</a>
+                    <a href="{{ route('teacher.submissions.index') }}" class="block rounded-lg px-3 py-2.5 {{ $navClass('teacher.submissions.*') }}">Grade</a>
                     <a href="{{ route('teacher.submissions.by-student') }}" class="block rounded-lg px-3 py-2.5 {{ $navClass('teacher.submissions.by-student') }}">Students</a>
                 @endif
                 @if (auth()->user()->role === \App\Enums\UserRole::Admin)
+                    <a href="{{ route('admin.dashboard') }}" class="block rounded-lg px-3 py-2.5 {{ $navClass('admin.dashboard') }}">Dashboard</a>
                     <a href="{{ route('admin.weeks.index') }}" class="block rounded-lg px-3 py-2.5 {{ $navClass('admin.weeks.*') }}">Weeks</a>
                     <a href="{{ route('manage.quizzes.index') }}" class="block rounded-lg px-3 py-2.5 {{ $navClass('manage.quizzes.*') }}">Quizzes</a>
                     <a href="{{ route('admin.users.index') }}" class="block rounded-lg px-3 py-2.5 {{ $navClass('admin.users.*') }}">Users</a>

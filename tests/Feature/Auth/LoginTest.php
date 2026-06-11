@@ -86,7 +86,7 @@ class LoginTest extends TestCase
         $this->post(route('login'), [
             'username' => 'teacher1',
             'password' => 'password',
-        ])->assertRedirect(route('teacher.submissions.index'));
+        ])->assertRedirect(route('teacher.dashboard'));
     }
 
     public function test_admin_is_redirected_to_quiz_management_after_login(): void
@@ -99,7 +99,7 @@ class LoginTest extends TestCase
         $this->post(route('login'), [
             'username' => 'admin1',
             'password' => 'password',
-        ])->assertRedirect(route('manage.quizzes.index'));
+        ])->assertRedirect(route('admin.dashboard'));
     }
 
     public function test_authenticated_user_visiting_login_is_redirected_to_home_route(): void

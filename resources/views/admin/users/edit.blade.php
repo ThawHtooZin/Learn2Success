@@ -3,7 +3,14 @@
 @section('title', 'Edit user')
 
 @section('content')
-    <h1 class="mb-4 text-xl font-semibold">Edit user</h1>
+    <x-staff-nav-trail
+        class="mb-4"
+        :items="[
+            ['label' => 'Users', 'url' => route('admin.users.index')],
+            ['label' => $user->username],
+        ]"
+        title="Edit user"
+    />
     <form method="POST" action="{{ route('admin.users.update', $user) }}" class="max-w-lg rounded-xl border border-slate-200 bg-white p-6">
         @csrf
         @method('PUT')
