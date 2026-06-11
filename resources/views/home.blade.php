@@ -11,12 +11,9 @@
                     <img
                         src="{{ asset(config('branding.logo')) }}"
                         alt="{{ config('app.name') }}"
-                        class="mx-auto h-20 w-20 object-contain drop-shadow-md sm:h-24 sm:w-24 lg:mx-0 lg:h-28 lg:w-28"
+                        class="mx-auto h-auto w-48 max-w-full object-contain drop-shadow-md sm:w-56 lg:mx-0 lg:w-64"
                     >
-                    <h1 class="mt-4 text-3xl font-bold tracking-tight text-[#785900] sm:text-4xl lg:text-5xl">
-                        {{ config('app.name') }}
-                    </h1>
-                    <p class="mt-3 text-lg font-semibold leading-relaxed text-[#171c1f] sm:text-xl lg:max-w-md">
+                    <p class="mt-5 text-lg font-semibold leading-relaxed text-[#171c1f] sm:text-xl lg:max-w-md">
                         {{ config('branding.tagline') }}
                     </p>
 

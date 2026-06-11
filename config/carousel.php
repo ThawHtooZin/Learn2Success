@@ -3,7 +3,7 @@
 return [
     'slides' => [
         [
-            'image' => 'images/carousel/learn2earn_banner.jpg.png',
+            'image' => 'images/carousel/learn2success_banner.png',
             'title' => 'Learn2Success',
             'caption' => 'Together we learn, together we succeed.',
             'color' => 'from-amber-600 to-yellow-500',
@@ -11,7 +11,7 @@ return [
             'showCaption' => false,
         ],
         [
-            'image' => 'images/branding/learn2earn_logo.png',
+            'image' => 'images/branding/learn2success_logo.png',
             'title' => 'Your golden goal',
             'caption' => 'Learn, speak, and celebrate every win.',
             'color' => 'from-amber-500 to-amber-700',

@@ -24,9 +24,12 @@
             class="fixed inset-y-0 left-0 z-50 w-64 -translate-x-full border-r border-slate-200 bg-white transition-transform lg:static lg:translate-x-0"
             :class="{ 'translate-x-0': sidebarOpen }"
         >
-            <div class="flex h-16 items-center gap-3 border-b border-[#cde5ff] px-4">
-                <img src="{{ asset(config('branding.logo')) }}" alt="" class="h-9 w-9 object-contain">
-                <span class="font-bold text-[#785900]">{{ config('app.name') }}</span>
+            <div class="flex h-16 items-center border-b border-[#cde5ff] px-4">
+                <img
+                    src="{{ asset(config('branding.logo')) }}"
+                    alt="{{ config('app.name') }}"
+                    class="h-11 w-auto max-w-[11rem] object-contain object-left"
+                >
             </div>
             <nav class="space-y-1 p-4 text-sm">
                 @php

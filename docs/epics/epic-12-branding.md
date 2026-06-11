@@ -10,7 +10,7 @@
 |------|--------|
 | Product name | **Learn2Success** (`APP_NAME`, `config/branding.php`) |
 | Home | Logo, tagline, carousel, Sign in CTA, Listen/Speak/Succeed chips |
-| Assets | `public/images/branding/learn2earn_logo.png`, carousel banner + Unsplash slides |
+| Assets | `public/images/branding/learn2success_logo.png`, `public/images/carousel/learn2success_banner.png`, Unsplash slides |
 | Font | Quicksand via Vite |
 | Login | Branded card with logo |
 

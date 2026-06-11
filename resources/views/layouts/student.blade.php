@@ -16,10 +16,11 @@
 <body class="bg-[#f6fafe] antialiased">
     <div class="student-app relative pb-[5.5rem]">
         <header class="sticky top-0 z-30 flex h-16 items-center justify-between border-b-2 border-[#cde5ff] bg-white/90 px-5 backdrop-blur-md">
-            <div class="flex items-center gap-3">
-                <img src="{{ asset(config('branding.logo')) }}" alt="" class="h-11 w-11 object-contain">
-                <span class="text-lg font-bold text-[#785900]">{{ config('app.name') }}</span>
-            </div>
+            <img
+                src="{{ asset(config('branding.logo')) }}"
+                alt="{{ config('app.name') }}"
+                class="h-10 w-auto max-w-[9.5rem] object-contain object-left"
+            >
             <span class="rounded-full bg-[#ffdf9e] px-4 py-1.5 text-base font-bold text-[#6d5100]">
                 {{ auth()->user()->username }}
             </span>

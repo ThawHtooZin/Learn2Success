@@ -9,7 +9,7 @@
                 <img
                     src="{{ asset(config('branding.logo')) }}"
                     alt="{{ config('app.name') }}"
-                    class="mx-auto h-20 w-20 object-contain"
+                    class="mx-auto h-auto w-44 max-w-full object-contain"
                 >
                 <h1 class="mt-3 text-2xl font-bold text-[#785900]">Sign in</h1>
                 <p class="mt-1 text-base font-medium text-[#4f4632]">Use your username and password.</p>
