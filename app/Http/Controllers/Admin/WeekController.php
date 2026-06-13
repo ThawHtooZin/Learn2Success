@@ -7,20 +7,35 @@ use App\Http\Requests\Admin\StoreWeekRequest;
 use App\Http\Requests\Admin\UpdateWeekRequest;
 use App\Models\Quiz;
 use App\Models\Week;
+use App\Support\Tables\TableQuery;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class WeekController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
-        $weeks = Week::query()
-            ->withCount(['quizzes' => fn ($q) => $q->where('is_active', true)])
-            ->orderBy('sort_order')
-            ->orderBy('week_number')
-            ->paginate(15);
+        $tableQuery = TableQuery::make(
+            $request,
+            ['title', 'week_number', 'unlock_after_days', 'quizzes_count', 'is_active', 'sort_order'],
+            'sort_order',
+            'asc',
+        );
 
-        return view('admin.weeks.index', compact('weeks'));
+        $query = Week::query()
+            ->withCount(['quizzes' => fn ($q) => $q->where('is_active', true)]);
+
+        $tableQuery->applySearch($query, ['title']);
+
+        if (($active = $tableQuery->filter('active')) !== null) {
+            $query->where('is_active', $active === '1');
+        }
+
+        $tableQuery->applySort($query);
+        $weeks = $tableQuery->paginate($query);
+
+        return view('admin.weeks.index', compact('weeks', 'tableQuery'));
     }
 
     public function create(): View

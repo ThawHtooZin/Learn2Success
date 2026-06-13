@@ -121,6 +121,8 @@
 
 ##### Module 10 — Teacher Grading
 
+- **Teachers only** enter and save marks; admins have read-only access (Module 16).
+
 - Submissions list with filters: **Ready to grade** (pending + completed), **In progress**, **Graded**, **All**; paginated (20).
 - By-student view: students with at least one submission; grouped attempts per student.
 - Grade screen: **read-only quiz details** (total marks, mark per question, description, question count, time limit, week, question types) — teachers do **not** edit quiz content.
@@ -174,7 +176,7 @@
 - **KPI cards:** student count, teacher count, active quizzes, pending grades (completed submissions awaiting teacher).
 - **Charts:** submissions completed per day (14-day line/area); grading status split (pending / in progress / graded); attempts by week (bar).
 - **Quick actions:** create user, create quiz, create week, open grading queue.
-- **Recent activity:** latest submissions with student, quiz, status, link to grade.
+- **Recent activity:** latest submissions with student, quiz, status, link to **view submission** (admin read-only route).
 
 **Teacher dashboard** (`GET /teacher`, `teacher.dashboard`):
 
@@ -187,6 +189,27 @@
 **UX:** Mobile-responsive card grid; brand palette from `DESIGN.md`; Chart.js for graphs; empty states when no data.
 
 **Not in scope:** CSV export, custom date ranges, per-teacher queues, student dashboard.
+
+##### Module 16 — Admin Submission Review (Phase 2) ✅
+
+**Single epic (P2-E4):** admins can **view** submissions and grades; **only teachers** save marks.
+
+- Admin **Submissions** at `/admin/submissions` (sidebar link).
+- Same filters and data table as teacher queue: ready to grade, in progress, graded, all.
+- **By-student** grouped view at `/admin/submissions/by-student`.
+- **Detail view (read-only):** quiz metadata, student answers, audio playback, marks and feedback as text.
+- **View only** banner; no grade form or Save button for admin.
+- Admin dashboard recent activity links to admin submission detail (not teacher grade route).
+- Teacher grading routes (`PUT /teacher/submissions/{submission}`) remain teacher-only.
+
+##### Module 17 — Staff Data Tables (Phase 2) ✅
+
+**Single epic (P2-E5):** reusable search, sort, filter, pagination for staff listing pages.
+
+- `TableQuery` helper + `<x-data-table>` Blade components.
+- Applied to: admin Users, Quizzes, Weeks; teacher and admin Submissions index.
+- Query-string state for search, sort, filters, and per-page.
+- See `docs/data-table-component.md`.
 
 ---
 
@@ -214,6 +237,9 @@
 | 17 | Admin edit week | `admin.weeks.edit` | `/admin/weeks/{week}/edit` | Admin |
 | 18 | Admin dashboard | `admin.dashboard` | `/admin` | Admin |
 | 19 | Teacher dashboard | `teacher.dashboard` | `/teacher` | Teacher |
+| 20 | Admin submissions | `admin.submissions.index` | `/admin/submissions` | Admin |
+| 21 | Admin by student | `admin.submissions.by-student` | `/admin/submissions/by-student` | Admin |
+| 22 | Admin view submission | `admin.submissions.show` | `/admin/submissions/{submission}` | Admin |
 
 ---
 
@@ -364,6 +390,19 @@
 - FR-T8: The system shall display read-only quiz metadata on the grade screen (total marks, per-question max, description, types) without quiz edit access.
 - FR-T9: The system shall set submission status to `graded` and persist `total_mark` on successful save.
 
+##### Admin Submission Review
+
+- FR-A1: The system shall provide admin read-only submission list, by-student, and detail routes separate from teacher grading routes.
+- FR-A2: The system shall display submission answers, marks, and feedback to admins without editable grade inputs.
+- FR-A3: The system shall restrict grade persistence (`PUT` grading) to the teacher role only.
+- FR-A4: The system shall link admin dashboard recent activity to admin submission detail routes.
+
+##### Staff Data Tables
+
+- FR-DT1: Staff listing pages shall support server-side search with query-string persistence.
+- FR-DT2: Staff listing pages shall support sortable columns and status filters where applicable.
+- FR-DT3: Staff listing pages shall paginate results with configurable page size.
+
 ##### Administration & Security
 
 - FR-SEC1: The system shall require authentication for all student, teacher, and admin business routes.
@@ -446,6 +485,9 @@
 | POST | `/student/submissions/{submission}/questions/{question}/selection` | `student.submissions.selection` | Save selected options |
 | POST | `/student/submissions/{submission}/complete` | `student.submissions.complete` | Finish try |
 | GET | `/admin` | `admin.dashboard` | Admin overview (P2-E3) |
+| GET | `/admin/submissions` | `admin.submissions.index` | Admin submission list (P2-E4) |
+| GET | `/admin/submissions/by-student` | `admin.submissions.by-student` | Admin by-student view |
+| GET | `/admin/submissions/{submission}` | `admin.submissions.show` | Admin read-only detail |
 | GET | `/teacher` | `teacher.dashboard` | Teacher overview (P2-E3) |
 | GET | `/teacher/submissions` | `teacher.submissions.index` | Grading queue |
 | GET | `/teacher/submissions/by-student` | `teacher.submissions.by-student` | Grouped by student |
@@ -477,8 +519,10 @@
 | Speaking pattern (admin) | ✅ Done | Supported in admin; not in program seed |
 | Auto-grade all-MC quiz | ✅ Done | |
 | Teacher grading queue & filters | ✅ Done | |
+| Admin read-only submission review | ✅ Done | Phase 2 P2-E4 (Module 16) |
+| Staff data tables (search/sort/filter) | ✅ Done | Phase 2 P2-E5 (Module 17) |
 | Admin user + quiz CRUD | ✅ Done | |
-| Pest automated tests | ✅ Done | 73 tests (`php artisan test`) |
+| Pest automated tests | ✅ Done | 80+ tests (`php artisan test`) |
 | Admin + teacher dashboards | ✅ Done | Phase 2 P2-E3 (Module 15) |
 | Energy / lives gamification | ⬜ Not built | Out of scope P2-E1 |
 | Admin week CRUD UI | ✅ Done | Phase 2 P2-E2 |
@@ -501,8 +545,10 @@ Auth, roles, admin CRUD, quiz engine, student play, submissions, auto-grade, tea
 | P2-E1 | Week Management & Gamification Journey | ✅ Done |
 | P2-E2 | Admin Week Management | ✅ Done |
 | P2-E3 | Staff Dashboards (Admin + Teacher) | ✅ Done |
+| P2-E4 | Admin Submission Review (Read-Only) | ✅ Done |
+| P2-E5 | Staff Data Tables | ✅ Done |
 
-See `docs/phase-2-technical-design-and-tasks.md` · `docs/epics/epic-15-staff-dashboards.md`.
+See `docs/phase-2-technical-design-and-tasks.md` · `docs/epics/epic-16-admin-submission-review.md` · `docs/epics/epic-17-staff-data-tables.md`.
 
 ---
 

@@ -22,6 +22,9 @@
 | [database-schema.md](database-schema.md) | Tables, columns, relationships |
 | [routes-reference.md](routes-reference.md) | All HTTP routes (all ✅) |
 | [client-demo-video-guide.md](client-demo-video-guide.md) | **Client screen recording plan** (10 videos by role) |
+| [Learn2Success-Client-Feature-Guide.docx](Learn2Success-Client-Feature-Guide.docx) | **Client feature list** (English Word) |
+| [Learn2Success-Client-Feature-Guide-Myanmar.docx](Learn2Success-Client-Feature-Guide-Myanmar.docx) | **Client feature list** (မြန်မာ Word) |
+| [data-table-component.md](data-table-component.md) | Staff table search / sort / filter / pagination |
 | [epics/README.md](epics/README.md) | Per-epic implementation specs |
 | [../DESIGN.md](../DESIGN.md) | Colors, typography, components |
 

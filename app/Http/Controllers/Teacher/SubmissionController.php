@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers\Teacher;
 
-use App\Enums\SubmissionStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Teacher\UpdateGradingRequest;
 use App\Models\Submission;
-use App\Enums\UserRole;
-use App\Models\User;
 use App\Services\Grading\GradingService;
+use App\Services\Submissions\SubmissionListService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -17,47 +15,49 @@ class SubmissionController extends Controller
 {
     public function __construct(
         private readonly GradingService $gradingService,
+        private readonly SubmissionListService $submissionList,
     ) {}
 
     public function index(Request $request): View
     {
-        $filter = $request->query('filter', 'ready');
-
-        $query = Submission::query()
-            ->with(['user', 'quiz'])
-            ->latest('created_at');
-
-        match ($filter) {
-            'in_progress' => $query->whereNull('completed_at'),
-            'graded' => $query->where('status', SubmissionStatus::Graded),
-            'all' => null,
-            default => $query->where('status', SubmissionStatus::Pending)->whereNotNull('completed_at'),
-        };
-
-        $submissions = $query->paginate(20)->withQueryString();
-
-        return view('teacher.submissions.index', compact('submissions', 'filter'));
+        return view('staff.submissions.index', [
+            ...$this->submissionList->index($request),
+            'canGrade' => true,
+            'indexRoute' => 'teacher.submissions.index',
+            'showRoute' => 'teacher.submissions.show',
+            'byStudentRoute' => 'teacher.submissions.by-student',
+            'pageTitle' => 'Submissions',
+            'trailRoot' => ['label' => 'Grade'],
+        ]);
     }
 
     public function byStudent(): View
     {
-        $students = User::query()
-            ->where('role', UserRole::Student)
-            ->whereHas('submissions')
-            ->with(['submissions' => fn ($q) => $q->with('quiz')->latest('created_at')])
-            ->orderBy('username')
-            ->get();
-
-        return view('teacher.submissions.by-student', compact('students'));
+        return view('staff.submissions.by-student', [
+            'students' => $this->submissionList->studentsWithSubmissions(),
+            'canGrade' => true,
+            'showRoute' => 'teacher.submissions.show',
+            'indexRoute' => 'teacher.submissions.index',
+            'pageTitle' => 'Submissions by student',
+            'trailRoot' => [
+                'label' => 'Grade',
+                'url' => route('teacher.submissions.index'),
+            ],
+        ]);
     }
 
     public function show(Submission $submission): View
     {
-        $submission->load(['answers.question', 'quiz.week', 'quiz.questions', 'user']);
-
-        $maxPerQuestion = $submission->quiz->effectiveMarkPerQuestion();
-
-        return view('teacher.submissions.show', compact('submission', 'maxPerQuestion'));
+        return view('staff.submissions.show', [
+            ...$this->submissionList->show($submission),
+            'canGrade' => true,
+            'indexRoute' => 'teacher.submissions.index',
+            'pageTitle' => 'Grade submission',
+            'trailRoot' => [
+                'label' => 'Grade',
+                'url' => route('teacher.submissions.index'),
+            ],
+        ]);
     }
 
     public function update(UpdateGradingRequest $request, Submission $submission): RedirectResponse

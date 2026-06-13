@@ -6,16 +6,28 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreUserRequest;
 use App\Http\Requests\Admin\UpdateUserRequest;
 use App\Models\User;
+use App\Support\Tables\TableQuery;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class UserController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
-        $users = User::query()->orderBy('username')->paginate(15);
+        $tableQuery = TableQuery::make($request, ['username', 'role'], 'username', 'asc');
 
-        return view('admin.users.index', compact('users'));
+        $query = User::query();
+        $tableQuery->applySearch($query, ['username']);
+
+        if ($role = $tableQuery->filter('role')) {
+            $query->where('role', $role);
+        }
+
+        $tableQuery->applySort($query);
+        $users = $tableQuery->paginate($query);
+
+        return view('admin.users.index', compact('users', 'tableQuery'));
     }
 
     public function create(): View

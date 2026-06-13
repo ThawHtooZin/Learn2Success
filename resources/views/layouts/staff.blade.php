@@ -44,6 +44,7 @@
                 @endif
                 @if (auth()->user()->role === \App\Enums\UserRole::Admin)
                     <a href="{{ route('admin.dashboard') }}" class="block rounded-lg px-3 py-2.5 {{ $navClass('admin.dashboard') }}">Dashboard</a>
+                    <a href="{{ route('admin.submissions.index') }}" class="block rounded-lg px-3 py-2.5 {{ $navClass('admin.submissions.*') }}">Submissions</a>
                     <a href="{{ route('admin.weeks.index') }}" class="block rounded-lg px-3 py-2.5 {{ $navClass('admin.weeks.*') }}">Weeks</a>
                     <a href="{{ route('manage.quizzes.index') }}" class="block rounded-lg px-3 py-2.5 {{ $navClass('manage.quizzes.*') }}">Quizzes</a>
                     <a href="{{ route('admin.users.index') }}" class="block rounded-lg px-3 py-2.5 {{ $navClass('admin.users.*') }}">Users</a>
@@ -59,7 +60,7 @@
                 <div class="text-sm font-medium">{{ auth()->user()->username }}</div>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
-                    <button type="submit" class="min-h-11 rounded-lg px-3 py-2 text-sm font-medium hover:bg-slate-100">Log out</button>
+                    <button type="submit" class="staff-btn-logout">Log out</button>
                 </form>
             </header>
 

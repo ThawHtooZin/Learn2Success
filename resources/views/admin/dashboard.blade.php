@@ -60,9 +60,13 @@
                     Create week
                     <span class="text-slate-400">→</span>
                 </a>
-                <a href="{{ route('manage.quizzes.index') }}" class="flex min-h-11 items-center justify-between rounded-xl border border-[#cde5ff] bg-[#f0f8ff] px-4 py-3 text-sm font-semibold text-[#006399] hover:bg-[#e3f2fd]">
-                    Manage quizzes
+                <a href="{{ route('admin.submissions.index') }}" class="flex min-h-11 items-center justify-between rounded-xl border border-[#cde5ff] bg-[#f0f8ff] px-4 py-3 text-sm font-semibold text-[#006399] hover:bg-[#e3f2fd]">
+                    View submissions
                     <span>→</span>
+                </a>
+                <a href="{{ route('manage.quizzes.index') }}" class="flex min-h-11 items-center justify-between rounded-xl border border-slate-200 px-4 py-3 text-sm font-semibold hover:bg-slate-50">
+                    Manage quizzes
+                    <span class="text-slate-400">→</span>
                 </a>
             </div>
         </section>
@@ -70,7 +74,7 @@
         <section class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm xl:col-span-2">
             <div class="flex items-center justify-between gap-3">
                 <h2 class="text-sm font-semibold text-slate-700">Recent activity</h2>
-                <a href="{{ route('admin.users.index') }}" class="text-xs font-semibold text-[#006399] hover:underline">Manage users</a>
+                <a href="{{ route('admin.submissions.index') }}" class="text-xs font-semibold text-[#006399] hover:underline">All submissions</a>
             </div>
 
             @if ($recentSubmissions->isEmpty())
@@ -98,7 +102,11 @@
                                         <span class="mt-1 block text-xs text-slate-400">{{ $row['relative_time'] }}</span>
                                     </td>
                                     <td class="px-4 py-3 text-right">
-                                        <a href="{{ $row['quiz_edit_url'] }}" class="font-semibold text-[#006399] hover:underline">View quiz</a>
+                                        @if ($row['show_url'])
+                                            <a href="{{ $row['show_url'] }}" class="font-semibold text-[#006399] hover:underline">View</a>
+                                        @else
+                                            <span class="text-slate-400">In progress</span>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach

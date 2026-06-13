@@ -3,6 +3,13 @@
 **Purpose:** Screen recordings to walk the client through each role and major feature.  
 **App:** Learn2Success (responsive web — demo student flow on mobile width when possible).
 
+**Companion docs (send to client):**
+
+| Language | File | Regenerate |
+|----------|------|------------|
+| English | [Learn2Success-Client-Feature-Guide.docx](Learn2Success-Client-Feature-Guide.docx) | `python3 scripts/generate_client_feature_docx.py` |
+| မြန်မာ | [Learn2Success-Client-Feature-Guide-Myanmar.docx](Learn2Success-Client-Feature-Guide-Myanmar.docx) | `python3 scripts/generate_client_feature_docx_my.py` |
+
 ---
 
 ## How many videos?

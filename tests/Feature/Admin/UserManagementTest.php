@@ -34,4 +34,18 @@ class UserManagementTest extends TestCase
             ->delete(route('admin.users.destroy', $admin))
             ->assertForbidden();
     }
+
+    public function test_admin_user_index_supports_search_and_role_filter(): void
+    {
+        $admin = User::factory()->admin()->create();
+        User::factory()->student()->create(['username' => 'findme_student']);
+        User::factory()->teacher()->create(['username' => 'findme_teacher']);
+
+        $this->actingAs($admin)
+            ->get(route('admin.users.index', ['q' => 'findme', 'role' => 'student']))
+            ->assertOk()
+            ->assertSee('findme_student')
+            ->assertDontSee('findme_teacher')
+            ->assertSee('data-table-toolbar', false);
+    }
 }

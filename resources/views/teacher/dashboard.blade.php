@@ -66,7 +66,7 @@
                                 <p class="mt-1 text-xs text-slate-400">Waiting {{ $row['waiting_since'] }}</p>
                             </div>
                             <a
-                                href="{{ $row['grade_url'] }}"
+                                href="{{ $row['show_url'] }}"
                                 class="inline-flex min-h-10 items-center rounded-lg bg-[#785900] px-4 py-2 text-sm font-semibold text-white hover:bg-[#6d5100]"
                             >
                                 Grade

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\QuizController as AdminQuizController;
+use App\Http\Controllers\Admin\SubmissionController as AdminSubmissionController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\WeekController as AdminWeekController;
 use App\Http\Controllers\Admin\WeekQuizController;
@@ -47,6 +48,9 @@ Route::middleware(['auth', 'role:teacher'])->group(function () {
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/admin', AdminDashboardController::class)->name('admin.dashboard');
+    Route::get('/admin/submissions', [AdminSubmissionController::class, 'index'])->name('admin.submissions.index');
+    Route::get('/admin/submissions/by-student', [AdminSubmissionController::class, 'byStudent'])->name('admin.submissions.by-student');
+    Route::get('/admin/submissions/{submission}', [AdminSubmissionController::class, 'show'])->name('admin.submissions.show');
     Route::resource('admin/users', UserController::class)->except(['show'])->names('admin.users');
     Route::resource('admin/weeks', AdminWeekController::class)->except(['show'])->names('admin.weeks');
     Route::post('admin/weeks/{week}/quizzes', [WeekQuizController::class, 'store'])->name('admin.weeks.quizzes.store');

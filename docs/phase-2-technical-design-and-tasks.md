@@ -1,7 +1,7 @@
 # Phase 2 — Technical Design & Epics
 
 **Product source of truth:** `docs/learn2earn-prd.md` (Phase 2 extensions below)  
-**Status:** Phase 2 complete ✅ (P2-E1–E3)  
+**Status:** Phase 2 in progress — P2-E1–E3 ✅ · P2-E4–E5 ✅  
 **Rule:** One Epic at a time; wait for approval before the next Phase 2 epic.
 
 **Depends on:** Phase 1 complete (E1–E12 ✅)
@@ -189,8 +189,10 @@ Palette: `DESIGN.md` gold / sky / green. Full-width mobile shell.
 | **P2-E1** | Week Management & Gamification Journey | ✅ Done |
 | **P2-E2** | Admin Week Management | ✅ Done |
 | **P2-E3** | Staff Dashboards (Admin + Teacher) | ✅ Done |
+| **P2-E4** | Admin Submission Review (Read-Only) | ✅ Done |
+| **P2-E5** | Staff Data Tables | ✅ Done |
 
-Specs: **[epic-13](epics/epic-13-week-gamification.md)** · **[epic-14](epics/epic-14-admin-week-management.md)** · **[epic-15](epics/epic-15-staff-dashboards.md)**
+Specs: **[epic-13](epics/epic-13-week-gamification.md)** · **[epic-14](epics/epic-14-admin-week-management.md)** · **[epic-15](epics/epic-15-staff-dashboards.md)** · **[epic-16](epics/epic-16-admin-submission-review.md)** · **[epic-17](epics/epic-17-staff-data-tables.md)**
 
 ---
 
@@ -215,7 +217,7 @@ Specs: **[epic-13](epics/epic-13-week-gamification.md)** · **[epic-14](epics/ep
 
 ```bash
 php artisan migrate:fresh --seed
-php artisan test   # 73 tests total
+php artisan test   # 80+ tests total
 ```
 
 **Phase 2 automated tests**
@@ -229,6 +231,8 @@ php artisan test   # 73 tests total
 | `tests/Feature/Admin/WeekManagementTest.php` | Admin week CRUD + auth |
 | `tests/Feature/Admin/DashboardTest.php` | Admin dashboard + login redirect |
 | `tests/Feature/Teacher/DashboardTest.php` | Teacher dashboard + priority queue |
+| `tests/Feature/Admin/SubmissionReviewTest.php` | Admin read-only submission review |
+| `tests/Unit/Support/TableQueryTest.php` | Data table query helper |
 
 **Manual QA accounts**
 
@@ -240,8 +244,77 @@ php artisan test   # 73 tests total
 
 ---
 
+---
+
+## P2-E4 — Admin Submission Review (Read-Only) ✅
+
+| | |
+|---|---|
+| **Why** | Admins need oversight of student attempts and grades without taking on teacher grading duties. |
+| **What** | `/admin/submissions` list, by-student, and detail — shared `staff/submissions/` views with `$canGrade=false`. |
+| **Result** | Admins see marks and feedback; only teachers can save grades via `/teacher/submissions/{id}` PUT. |
+
+**Spec:** [epics/epic-16-admin-submission-review.md](epics/epic-16-admin-submission-review.md)
+
+### Architecture (P2-E4)
+
+```
+GET /admin/submissions* → Admin\SubmissionController
+  → SubmissionListService (shared with teacher)
+  → staff.submissions.* (canGrade=false)
+
+PUT /teacher/submissions/{submission} → Teacher only (unchanged)
+```
+
+**New service:** `App\Services\Submissions\SubmissionListService`  
+**Shared views:** `resources/views/staff/submissions/`
+
+### Routes (P2-E4)
+
+| Method | Path | Name |
+|--------|------|------|
+| GET | `/admin/submissions` | `admin.submissions.index` |
+| GET | `/admin/submissions/by-student` | `admin.submissions.by-student` |
+| GET | `/admin/submissions/{submission}` | `admin.submissions.show` |
+
+Admin sidebar: **Submissions**. Dashboard recent activity links to admin submission detail.
+
+### Tests (P2-E4)
+
+| File | Covers |
+|------|--------|
+| `tests/Feature/Admin/SubmissionReviewTest.php` | Admin list/show, read-only UI, 403 on grade PUT |
+| `tests/Feature/Authorization/RoleAccessTest.php` | Admin submission routes |
+
+---
+
+## P2-E5 — Staff Data Tables ✅
+
+| | |
+|---|---|
+| **Why** | Staff listing pages needed consistent search, sort, filter, and pagination. |
+| **What** | `TableQuery` + `<x-data-table>` on Users, Quizzes, Weeks, Submissions index pages. |
+| **Result** | Query-string state preserved; reusable toolbar and sort headers. |
+
+**Spec:** [epics/epic-17-staff-data-tables.md](epics/epic-17-staff-data-tables.md) · [data-table-component.md](data-table-component.md)
+
+### Architecture (P2-E5)
+
+**Backend:** `App\Support\Tables\TableQuery`  
+**Views:** `resources/views/components/data-table/*`
+
+### Tests (P2-E5)
+
+| File | Covers |
+|------|--------|
+| `tests/Unit/Support/TableQueryTest.php` | TableQuery behaviour |
+| `tests/Feature/Admin/UserManagementTest.php` | Users index search/sort |
+
+---
+
 ## 11. Flow docs
 
 - [docs/flows/phase-2-epic-1-week-gamification-sequence.md](flows/phase-2-epic-1-week-gamification-sequence.md)
 - [docs/flows/phase-2-epic-2-admin-week-management-sequence.md](flows/phase-2-epic-2-admin-week-management-sequence.md)
 - [docs/flows/phase-2-epic-3-staff-dashboards-sequence.md](flows/phase-2-epic-3-staff-dashboards-sequence.md)
+- [docs/flows/phase-2-epic-4-admin-submission-review-sequence.md](flows/phase-2-epic-4-admin-submission-review-sequence.md)

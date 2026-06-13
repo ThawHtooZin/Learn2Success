@@ -64,6 +64,15 @@ class RoleAccessTest extends TestCase
             ->assertForbidden();
     }
 
+    public function test_admin_can_access_admin_submission_routes(): void
+    {
+        $admin = User::factory()->admin()->create();
+
+        $this->actingAs($admin)
+            ->get(route('admin.submissions.index'))
+            ->assertOk();
+    }
+
     public function test_admin_can_access_admin_routes(): void
     {
         $admin = User::factory()->admin()->create();

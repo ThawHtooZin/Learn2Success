@@ -32,7 +32,7 @@ class StaffDashboardService
                 'grading_status' => $this->gradingStatusChart(),
                 'attempts_by_week' => $this->attemptsByWeekChart(),
             ],
-            'recent_submissions' => $this->recentSubmissions(8),
+            'recent_submissions' => $this->recentSubmissions(8, 'admin.submissions.show'),
         ];
     }
 
@@ -149,14 +149,14 @@ class StaffDashboardService
     /**
      * @return Collection<int, array<string, mixed>>
      */
-    private function recentSubmissions(int $limit): Collection
+    private function recentSubmissions(int $limit, string $showRoute = 'teacher.submissions.show'): Collection
     {
         return Submission::query()
             ->with(['user', 'quiz'])
             ->latest('created_at')
             ->limit($limit)
             ->get()
-            ->map(fn (Submission $submission) => $this->submissionRow($submission));
+            ->map(fn (Submission $submission) => $this->submissionRow($submission, $showRoute));
     }
 
     /**
@@ -170,7 +170,7 @@ class StaffDashboardService
             ->limit($limit)
             ->get()
             ->map(fn (Submission $submission) => [
-                ...$this->submissionRow($submission),
+                ...$this->submissionRow($submission, 'teacher.submissions.show'),
                 'waiting_since' => $submission->completed_at?->diffForHumans(),
             ]);
     }
@@ -178,7 +178,7 @@ class StaffDashboardService
     /**
      * @return array<string, mixed>
      */
-    private function submissionRow(Submission $submission): array
+    private function submissionRow(Submission $submission, string $showRoute = 'teacher.submissions.show'): array
     {
         $status = 'in_progress';
         $statusLabel = 'In progress';
@@ -199,9 +199,9 @@ class StaffDashboardService
             'status' => $status,
             'status_label' => $statusLabel,
             'relative_time' => $submission->created_at?->diffForHumans(),
-            'grade_url' => $submission->isInProgress()
+            'show_url' => $submission->isInProgress()
                 ? null
-                : route('teacher.submissions.show', $submission),
+                : route($showRoute, $submission),
             'quiz_edit_url' => route('manage.quizzes.edit', $submission->quiz_id),
         ];
     }

@@ -1,14 +1,12 @@
 @extends('layouts.staff')
 
-@section('title', 'By student')
+@section('title', $pageTitle.' — '.config('app.name'))
 
 @section('content')
     <x-staff-nav-trail
         class="mb-4"
-        :items="[
-            ['label' => 'Students'],
-        ]"
-        title="Submissions by student"
+        :items="array_merge([$trailRoot], [['label' => $pageTitle]])"
+        :title="$pageTitle"
     />
 
     <div class="space-y-6">
@@ -19,7 +17,9 @@
                     @foreach ($student->submissions as $submission)
                         <li class="flex items-center justify-between rounded-lg bg-slate-50 px-3 py-2">
                             <span>{{ $submission->quiz->title }} — {{ $submission->created_at->format('M j, Y') }}</span>
-                            <a href="{{ route('teacher.submissions.show', $submission) }}" class="font-medium hover:underline">View</a>
+                            <a href="{{ route($showRoute, $submission) }}" class="font-medium hover:underline">
+                                {{ $canGrade ? 'Grade' : 'View' }}
+                            </a>
                         </li>
                     @endforeach
                 </ul>

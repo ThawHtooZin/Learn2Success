@@ -42,7 +42,7 @@
                 </a>
                 <form method="POST" action="{{ route('logout') }}" class="contents">
                     @csrf
-                    <button type="submit" class="flex min-h-[4.5rem] flex-col items-center justify-center gap-1 text-[#006399]">
+                    <button type="submit" class="student-btn-logout">
                         <span class="text-2xl" aria-hidden="true">👋</span>
                         <span class="text-base font-bold">Log out</span>
                     </button>
